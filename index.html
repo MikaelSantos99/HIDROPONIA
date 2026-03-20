@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HIDRO SMT - Monitoramento Hidropônico</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header class="dashboard-header">
+            <h1><i class="fas fa-leaf"></i> HIDRO SMT - Hidroponia Inteligente</h1>
+            <div class="last-update" id="lastUpdate">Última atualização: --/--/---- --:--:--</div>
+        </header>
+        
+        <div class="dashboard-grid">
+            <!-- Card de pH -->
+            <div class="card ph-card">
+                <div class="card-header">
+                    <i class="fas fa-tint"></i> Nível de pH
+                </div>
+                <div class="card-body">
+                    <div class="gauge-container">
+                        <div class="gauge" id="phGauge">
+                            <div class="gauge-body">
+                                <div class="gauge-fill"></div>
+                                <div class="gauge-cover">--</div>
+                            </div>
+                            <div class="gauge-range">
+                                <span>0</span>
+                                <span>7</span>
+                                <span>14</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-details">
+                        <div><span>Setpoint:</span> <span id="phSetpoint">--</span></div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Card de Condutividade Elétrica -->
+            <div class="card ec-card">
+                <div class="card-header">
+                    <i class="fas fa-bolt"></i> Condutividade (EC)
+                </div>
+                <div class="card-body">
+                    <div class="value-display">
+                        <span id="ecValue">--</span>
+                        <span class="unit">mS/cm</span>
+                    </div>
+                    <div class="progress-container">
+                        <div class="progress-bar" id="ecProgress"></div>
+                    </div>
+                    <div class="card-details">
+                        <div><span>Setpoint:</span> <span id="ecSetpoint">--</span></div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Card de Relé pH -->
+            <div class="card relay-ph-card">
+                <div class="card-header">
+                    <i class="fas fa-toggle-on"></i> Relé pH
+                </div>
+                <div class="card-body">
+                    <div class="relay-status" id="relayPhStatus">
+                        <div class="relay-indicator off"></div>
+                        <div class="relay-label">OFF</div>
+                    </div>
+                    <div class="relay-history">
+                        <h4>Últimas Ativações:</h4>
+                        <ul id="relayPhHistory">
+                            <li>Nenhum registro ainda</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Card de Relé EC -->
+            <div class="card relay-ec-card">
+                <div class="card-header">
+                    <i class="fas fa-toggle-on"></i> Relé EC
+                </div>
+                <div class="card-body">
+                    <div class="relay-status" id="relayEcStatus">
+                        <div class="relay-indicator off"></div>
+                        <div class="relay-label">OFF</div>
+                    </div>
+                    <div class="relay-history">
+                        <h4>Últimas Ativações:</h4>
+                        <ul id="relayEcHistory">
+                            <li>Nenhum registro ainda</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card de Relé Bomba (CORRIGIDO) -->
+            <div class="card relay-bomb-card">
+                <div class="card-header">
+                    <i class="fas fa-toggle-on"></i> Relé Bomba
+                </div>
+                <div class="card-body">
+                    <div class="relay-status" id="relayBombStatus">
+                        <div class="relay-indicator off"></div>
+                        <div class="relay-label">OFF</div>
+                    </div>
+                    <div class="relay-history">
+                        <h4>Últimas Ativações:</h4>
+                        <ul id="relayBombHistory">
+                            <li>Nenhum registro ainda</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Card de Temperatura -->
+            <div class="card temp-card">
+                <div class="card-header">
+                    <i class="fas fa-thermometer-half"></i> Temperatura
+                </div>
+                <div class="card-body">
+                    <div class="value-display large">
+                        <span id="tempValue">--</span>
+                        <span class="unit">°C</span>
+                    </div>
+                    <div class="trend-indicator" id="tempTrend">
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Card de Umidade -->
+            <div class="card humidity-card">
+                <div class="card-header">
+                    <i class="fas fa-water"></i> Umidade
+                </div>
+                <div class="card-body">
+                    <div class="value-display large">
+                        <span id="humidityValue">--</span>
+                        <span class="unit">%</span>
+                    </div>
+                    <div class="trend-indicator" id="humidityTrend">
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Card de Luminosidade -->
+            <div class="card light-card">
+                <div class="card-header">
+                    <i class="fas fa-sun"></i> Luminosidade
+                </div>
+                <div class="card-body">
+                    <div class="value-display large">
+                        <span id="lightValue">--</span>
+                        <span class="unit">%</span>
+                    </div>
+                    <div class="light-icon">
+                        <i class="fas fa-sun" id="lightIcon"></i>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Card de Status -->
+            <div class="card status-card">
+                <div class="card-header">
+                    <i class="fas fa-info-circle"></i> Status do Sistema
+                </div>
+                <div class="card-body">
+                    <div class="status-item wifi">
+                        <i class="fas fa-wifi"></i>
+                        <span>WiFi: <span id="wifiStatus">--</span></span>
+                    </div>
+                    <div class="status-item signal">
+                        <i class="fas fa-signal"></i>
+                        <span>Sinal LoRa: <span id="signalStatus">--</span></span>
+                    </div>
+                    <div class="status-item uptime">
+                        <i class="fas fa-clock"></i>
+                        <span>Tempo Ativo: <span id="uptime">--</span></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="controls-section">
+            <h2><i class="fas fa-sliders-h"></i> Configurações</h2>
+            <div class="control-group">
+                <div class="control-item">
+                    <label for="phControl">Setpoint pH:</label>
+                    <input type="number" id="phControl" min="0" max="14" step="0.1" placeholder="7.0">
+                    <button id="updatePhBtn">Atualizar</button>
+                </div>
+                <div class="control-item">
+                    <label for="ecControl">Setpoint EC (mS/cm):</label>
+                    <input type="number" id="ecControl" min="0" max="5" step="0.1" placeholder="1.2">
+                    <button id="updateEcBtn">Atualizar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
