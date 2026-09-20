@@ -19,7 +19,7 @@ let relayPhHistory = [];
 let relayEcHistory = [];
 let relayBombHistory = [];
 let updateInterval = 5000; // 5 segundos
-let apiEndpoint = '/api.php'; // Endpoint que simula a API
+let apiEndpoint = 'https://hidroponia-zgsr.onrender.com/api.php'; //'/api.php'; // Endpoint que simula a API
 
 // Inicialização
 document.addEventListener('DOMContentLoaded', function() {
